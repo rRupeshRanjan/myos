@@ -4,6 +4,7 @@ build with
 - cargo bootimage
 - qemu-system-x86_64 -drive format=raw,file=target/x86_64-myos/debug/bootimage-myos.bin
 - Above can be replaced with "cargo run" instead after adding runner in .cargo/config.toml
+- cargo bootimage && qemu-system-x86_64 -drive format=raw,file=target/x86_64-myos/debug/bootimage-myos.bin -vnc :1 (for vnc output to post 5901)
 
 extra commands needed
 
