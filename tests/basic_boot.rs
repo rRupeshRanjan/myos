@@ -8,34 +8,19 @@ use core::panic::PanicInfo;
 use myos::println;
 
 // This function is called on panic
-#[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
-
-    loop {}
+    myos::test_panic_handler(info);
 }
 
 #[unsafe(no_mangle)] // dont mangle the name of this function
 pub extern "C" fn _start() -> ! {
-    // this function is the entry point, since the linker looks for a fucntion
-    // named _start by default
-
-    println!("Hello world{}", "!");
-
-    #[cfg(test)]
     test_main();
 
     loop {}
 }
 
-#[cfg(test)]
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    myos::test_panic_handler(info)
-}
-
 #[test_case]
-fn trivial_assertion() {
-    assert_eq!(1, 1);
+fn test_println() {
+    println!("test_println output");
 }

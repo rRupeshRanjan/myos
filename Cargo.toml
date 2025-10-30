@@ -14,11 +14,6 @@ uart_16550 = "0.2.0"
 version = "1.0"
 features = ["spin_no_std"]
 
-[profile.dev]
-
-[profile.release]
-panic = "abort"
-
 [[bin]]
 name = "myos"
 test = true
@@ -32,3 +27,7 @@ test-args = [
 ]
 test-success-exit-code = 33
 test-timeout = 300 # (in seconds)
+
+[[test]]
+name = "should_panic"
+harness = false
