@@ -14,3 +14,4 @@
 
 ## sample output:
 <img width="1129" height="790" alt="image" src="https://github.com/user-attachments/assets/9d9840a4-755f-4206-8445-5490e5d2ac1d" />
+![alt text](image.png)
