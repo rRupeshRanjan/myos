@@ -1,7 +1,7 @@
-use volatile::Volatile;
 use core::fmt;
 use lazy_static::lazy_static;
 use spin::Mutex;
+use volatile::Volatile;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -93,7 +93,6 @@ impl Writer {
                 // not part of printable ASCII range
                 _ => self.write_byte(0xfe),
             }
-
         }
     }
 
@@ -113,7 +112,7 @@ impl Writer {
             ascii_character: b' ',
             color_code: self.color_code,
         };
-        
+
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col].write(blank);
         }
@@ -143,4 +142,32 @@ macro_rules! println {
 pub fn _print(args: fmt::Arguments) {
     use core::fmt::Write;
     WRITER.lock().write_fmt(args).unwrap();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test_case]
+    fn test_println_simple() {
+        println!("test_println_simple output");
+    }
+
+    #[test_case]
+    fn test_println_many() {
+        for _ in 0..200 {
+            println!("test_println_mant output");
+        }
+    }
+
+    #[test_case]
+    fn test_println_output() {
+        let s = "some test string that fits on a single line";
+        println!("{}", s);
+
+        for (i, c) in s.chars().enumerate() {
+            let screen_char = WRITER.lock().buffer.chars[BUFFER_HEIGHT - 2][i].read();
+            assert_eq!(char::from(screen_char.ascii_character), c);
+        }
+    }
 }
