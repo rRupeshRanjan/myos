@@ -1,14 +1,15 @@
-build with
-
+## build with
 - cargo build --target thumbv7em-none-eabihf <-- old>
 - cargo bootimage
 - qemu-system-x86_64 -drive format=raw,file=target/x86_64-myos/debug/bootimage-myos.bin
 - Above can be replaced with "cargo run" instead after adding runner in .cargo/config.toml
 - cargo bootimage && qemu-system-x86_64 -drive format=raw,file=target/x86_64-myos/debug/bootimage-myos.bin -vnc :1 (for vnc output to post 5901)
 
-extra commands needed
-
+## extra commands needed
 - rustup target add thumbv7em-none-eabihf
 - rustup component add rust-src
 - rustup component add llvm-tools-preview
 - cargo install bootimage
+
+## sample output:
+<img width="1129" height="790" alt="image" src="https://github.com/user-attachments/assets/9d9840a4-755f-4206-8445-5490e5d2ac1d" />
