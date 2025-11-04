@@ -5,15 +5,14 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::panic::PanicInfo;
-use myos::println;
+use myos::{hlt_loop, println};
 
 // This function is called on panic
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-
-    loop {}
+    hlt_loop();
 }
 
 #[unsafe(no_mangle)] // dont mangle the name of this function
@@ -30,10 +29,7 @@ pub extern "C" fn _start() -> ! {
 
     println!("It did not crash");
 
-    loop {
-        use myos::print;
-        print!("-");
-    }
+    hlt_loop();
 }
 
 #[cfg(test)]
