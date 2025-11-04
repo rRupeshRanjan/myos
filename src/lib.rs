@@ -15,6 +15,14 @@ pub mod vga_buffer;
 pub fn init() {
     gdt::init();
     interrupts::init_dt();
+
+    // initialise 8259 PIC
+    unsafe {
+        interrupts::PICS.lock().initialize();
+    }
+
+    // executes the special sti instruction (“set interrupts”) to enable external interrupts.
+    x86_64::instructions::interrupts::enable();
 }
 
 pub trait Testable {
