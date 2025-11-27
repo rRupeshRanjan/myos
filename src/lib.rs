@@ -12,6 +12,8 @@ use x86_64::instructions;
 
 pub mod allocator;
 pub mod gdt;
+pub mod task;
+
 pub mod interrupts;
 pub mod memory;
 pub mod serial;
