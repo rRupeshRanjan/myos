@@ -12,7 +12,7 @@ use myos::{
     allocator, hlt_loop,
     memory::{self, BootInfoFrameAllocator},
     println,
-    task::{Task, keyboard, simple_executor::SimpleExecutor},
+    task::{Task, executor::Executor, keyboard},
 };
 use x86_64::VirtAddr;
 
@@ -40,17 +40,13 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialisation failed");
 
-    let mut executor = SimpleExecutor::new();
-    executor.spawn(Task::new(example_task()));
-    executor.spawn(Task::new(keyboard::print_keypresses()));
-    executor.run();
-
     #[cfg(test)]
     test_main();
 
-    println!("It did not crash");
-
-    hlt_loop();
+    let mut executor = Executor::new();
+    executor.spawn(Task::new(example_task()));
+    executor.spawn(Task::new(keyboard::print_keypresses()));
+    executor.run();
 }
 
 async fn async_number() -> u32 {
